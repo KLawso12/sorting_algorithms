@@ -20,7 +20,7 @@ make
 
 ## using the program
 
-sorting_algortihms [algorithm\_selection] [list\_1] [list-2] ...
+sorting_algorithms [algorithm\_selection] [list\_1] [list-2] ...
 
 
 
@@ -32,7 +32,7 @@ sorting_algortihms [algorithm\_selection] [list\_1] [list-2] ...
 
 ## example
 
-sorting\_algorithms 1 f e d c b a
+sorting_algorithms 1 f e d c b a
 
 
 
