@@ -14,6 +14,7 @@ var inputstr: string
 
 case input:
     of 1:
+        echo "selected algorithm: bubble"
         if(defined(windows)):
             inputstr = ".\\bubble." & ExeExts[0]
         else:
