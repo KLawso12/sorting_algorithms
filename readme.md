@@ -1,6 +1,6 @@
 ﻿# sorting algorithms
 
-Various Soring algorithms that can be used to sort strings
+Various soring algorithms that can be used to sort strings
 
 
 
@@ -47,7 +47,7 @@ sorting_algorithms 1 f e d c b a
 
 - makefiles are odd
 - This setup allows for the change and addition of algorithms without needing to recompile everything
-- The idea of the layout is such that I can call my sorting algorithms writtin in C by using the Nim program
+- The idea of the layout is such that I can call my sorting algorithms written in C by using the Nim program
 
 
 
