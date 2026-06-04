@@ -17,7 +17,7 @@ var inputstr: string
 case input:
     of 1:
         if(defined(windows)):
-            inputstr = "bubble." & ExeExts[0]
+            inputstr = ".\\bubble." & ExeExts[0]
         else:
             inputstr = "./bubble"
         inputstr &= " "
