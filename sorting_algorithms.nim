@@ -16,8 +16,10 @@ var inputstr: string
 
 case input:
     of 1:
-        inputstr = "bubble."
-        inputstr = inputstr & ExeExts[0]
+        if(defined(windows)):
+            inputstr = "bubble." & ExeExts[0]
+        else:
+            inputstr = "./bubble"
         inputstr &= " "
     else:
         echo "not a valid selection"
