@@ -1,6 +1,6 @@
 ﻿# sorting algorithms
 
-Various Soring algorithms that can be used
+Various Soring algorithms that can be used to sort strings
 
 
 
@@ -20,7 +20,7 @@ make
 
 ## using the program
 
-sorting\_algortihms \[algorithm\_selection] \[list\_1] \[list-2] ...
+sorting_algortihms [algorithm\_selection] [list\_1] [list-2] ...
 
 
 
@@ -55,4 +55,6 @@ sorting\_algorithms 1 f e d c b a
 
 - more sorting algorithms (merge, heap, etc)
 - multithreading for algorithms that can benefit from it (said algorithms needed first)
+- add support for sorting lists in files, and to possibly also export sorted list to a file
+- add ability to sort doubles
 
