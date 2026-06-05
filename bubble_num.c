@@ -29,7 +29,7 @@ int main(int argc, char* argv[argc+1])
     for(int i = 1; i < argc; i++)
     {
         sorted_list[i-1] = strtod(argv[i],&end);
-        if(end != '0')
+        if(end != '\0')
         {
             printf("error, not a double, it is %s", end);
             exit = EXIT_FAILURE;
