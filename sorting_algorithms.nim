@@ -4,7 +4,7 @@ import std/osproc
 
 if(paramCount() < 3):
     echo "error, less than 2 items, nothing to sort"
-    quit(QuitSuccess)
+    quit(QuitFailure)
 
 
 
