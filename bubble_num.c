@@ -7,7 +7,7 @@
 
 int main(int argc, char* argv[argc+1])
 {
-    bool exit = EXIT_SUCCESS;
+    unsigned int exit = EXIT_SUCCESS;
     if(argc < 3)
     {
         printf("error, not enough arguments\n");
@@ -18,11 +18,18 @@ int main(int argc, char* argv[argc+1])
     double temp_double = {};
     double *sorted_list = malloc(sizeof(double)*(argc-1));
     
+    if(!sorted_list)
+    {
+        printf("error, could not successfully allocate memory");
+        exit = EXIT_FAILURE;
+        goto cleanup;
+    }
+    
     char *end;
     for(int i = 1; i < argc; i++)
     {
         sorted_list[i-1] = strtod(argv[i],&end);
-        if(!end)
+        if(end != '0')
         {
             printf("error, not a double, it is %s", end);
             exit = EXIT_FAILURE;
@@ -30,12 +37,7 @@ int main(int argc, char* argv[argc+1])
         }
     }
     
-    if(!sorted_list)
-    {
-        printf("error, could not successfully allocate memory");
-        exit = EXIT_FAILURE;
-        goto cleanup;
-    }
+
     
     bool is_sorted = false;
     unsigned int array_size = argc - 1;
