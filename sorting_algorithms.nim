@@ -14,11 +14,18 @@ var inputstr: string
 
 case input:
     of 1:
-        echo "selected algorithm: bubble"
+        echo "selected algorithm: bubble (string)"
         if(defined(windows)):
-            inputstr = ".\\bubble." & ExeExts[0]
+            inputstr = ".\\bubble_str." & ExeExts[0]
         else:
-            inputstr = "./bubble"
+            inputstr = "./bubble_str"
+        inputstr &= " "
+    of 2:
+        echo "selected algorithm: bubble (double)"
+        if(defined(windows)):
+            inputstr = ".\\bubble_num." & ExeExts[0]
+        else:
+            inputstr = "./bubble_num"
         inputstr &= " "
     else:
         echo "not a valid selection"
