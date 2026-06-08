@@ -3,3 +3,4 @@ nimblecache/
 htmldocs/
 *.o
 *.exe
+*.gch
