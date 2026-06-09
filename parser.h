@@ -20,6 +20,7 @@ void Deallocate_string(char ***allocated_strings, size_t numberOfStrings);
 
 void AllocateStringsFromFile(char filename[], size_t *allocation_position,char ***allocated_strings, size_t maximum_string_length, size_t numberOfStrings);
 
+void AllocateStringsFromArgv(size_t argv_start, char *argv[], int argc, char ***allocated_strings, size_t *allocation_position, size_t numberOfStrings);
 
 
 
