@@ -10,11 +10,16 @@
 
 size_t MaxFileStringLength(char filename[], size_t mx_str_ln);
 
-size_t MaxArgvStringLength(int argc, char *argv[], size_t maximum_string_length, int argv_start);
+size_t MaxArgvStringLength(int argc, char *argv[], size_t maximum_string_length, size_t argv_start);
+
+size_t StringCounter(size_t numberOfStrings, size_t maximum_string_length, char filename[]);
 
 char **allocated_strings(size_t numberOfStrings, size_t maximum_string_length);
 
 void Deallocate_string(char ***allocated_strings, size_t numberOfStrings);
+
+void AllocateStringsFromFile(char filename[], size_t *allocation_position,char ***allocated_strings, size_t maximum_string_length, size_t numberOfStrings);
+
 
 
 
@@ -99,10 +104,15 @@ size_t MaxFileStringLength(char filename[], size_t mx_str_ln) //the idea here is
     return (maximum_string_length > mx_str_ln) ? maximum_string_length : mx_str_ln;
 }
 
-size_t MaxArgvStringLength(int argc, char *argv[], size_t maximum_string_length, int argv_start)
+size_t MaxArgvStringLength(int argc, char *argv[], size_t maximum_string_length, size_t argv_start)
 {
-    size_t max_string = 1;
+    if(argv_start >= argc)
+    {
+        printf("error: not enough arguments");
+        return maximum_string_length;
+    }
     
+    size_t max_string = 1;
     for(int i = argv_start; i < argc; i++)
     {
         if(strlen(argv[i]) > strlen(argv[max_string]))
@@ -119,13 +129,37 @@ size_t MaxArgvStringLength(int argc, char *argv[], size_t maximum_string_length,
     return max_string;
 }
 
-
+size_t StringCounter(size_t numberOfStrings, size_t maximum_string_length, char filename[])
+{
+    FILE *thefile;
+    thefile = fopen(filename,"r");
+    if(!thefile)
+    {
+        printf("error: the file is not real\n");
+        return numberOfStrings;
+    }
+    char c = 0;
+    size_t strings = numberOfStrings;
+    while(c != EOF)
+    {
+        c = fgetc(thefile);
+        if(c == '\n')
+        {
+            strings++;
+        }
+    }
+    strings++;
+            
+    fclose(thefile);
+    return strings;
+}
 
 char **allocated_strings(size_t numberOfStrings, size_t maximum_string_length)
 {
     char **allocated_strings = malloc(numberOfStrings * sizeof(char*));
     if(!allocated_strings)
     {
+        printf("error: could not allocate memory\n");
         return nullptr;
     }
     
@@ -135,6 +169,7 @@ char **allocated_strings(size_t numberOfStrings, size_t maximum_string_length)
         
         if(!allocated_strings[i])
         {
+            printf("error: could not allocate memory\n");
             for(int j = 0; j < i; j++)
             {
                 free(allocated_strings[j]);
@@ -150,6 +185,7 @@ void Deallocate_string(char ***allocated_strings, size_t numberOfStrings)
 {
     if(!allocated_strings || !*allocated_strings)
     {
+        printf("error: allocated strings are not real\n");
         return;
     }
     
@@ -162,10 +198,83 @@ void Deallocate_string(char ***allocated_strings, size_t numberOfStrings)
     return;
 }
 
+void AllocateStringsFromFile(char filename[], size_t *allocation_position, char ***allocated_strings, size_t maximum_string_length, size_t numberOfStrings)
+{
+    if(!allocated_strings || !*allocated_strings)
+    {
+        printf("error: allocated strings are not real\n");
+        return;
+    }
+    
+    FILE *thefile;
+    fpos_t filepos = 0;
+    thefile = fopen(filename, "r");
+    if(!thefile)
+    {
+        printf("error: file is not real\n");
+        return;
+    }
+    
+    if(*allocation_position > numberOfStrings)
+    {
+        printf("error: not enough memory allocated");
+        return;
+    }
+    
+    char c;
+    while((c = fgetc(thefile)) != EOF)
+    {
+        fsetpos(thefile,&filepos);
+        fgets((*allocated_strings)[*allocation_position], maximum_string_length,thefile);
+        fgetpos(thefile,&filepos);
+        (*allocation_position)++;
+        if(*allocation_position > numberOfStrings)
+        {
+            printf("error: not enough memory allocated");
+            return;
+        }
+    }
+    
+    
+    fclose(thefile);
+    return;
+}
+
+void AllocateStringsFromArgv(size_t argv_start, char *argv[], int argc, char ***allocated_strings, size_t *allocation_position, size_t numberOfStrings)
+{
+    if(!allocated_strings || !*allocated_strings)
+    {
+        printf("error: allocated strings are not real");
+        return;
+    }
+    if(argv_start >= argc)
+    {
+        printf("error: not enough arguments");
+        return;
+    }
+    if(*allocation_position > numberOfStrings)
+    {
+        printf("error: not enough memory allocated");
+        return;
+    }
+    
+    for(int i = argv_start; i < argc; i++)
+    {
+        
+        strcpy((*allocated_strings)[*allocation_position], argv[i]);
+        (*allocation_position)++;
+        if(*allocation_position > numberOfStrings)
+        {
+            printf("error: not enough memory allocated");
+            return;
+        }
+    }
+    
+    return;
+}
+
+
 // todo:
-// string number counter
-// file strings to allocated strings
-// argv strings to allocated strings
 // everything involving floats
 // comparison stuff maybe
 
