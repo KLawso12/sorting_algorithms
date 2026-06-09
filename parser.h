@@ -167,6 +167,12 @@ size_t StringCounter(size_t numberOfStrings, size_t maximum_string_length, char 
 
 char **allocated_strings(size_t numberOfStrings, size_t maximum_string_length)
 {
+    
+    if(!numberOfStrings)
+    {
+        printf("error: no strings");
+        return nullptr;
+    }
     char **allocated_strings = malloc(numberOfStrings * sizeof(char*));
     if(!allocated_strings)
     {
