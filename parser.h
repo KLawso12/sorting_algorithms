@@ -89,7 +89,7 @@ size_t MaxFileStringLength(char filename[], size_t mx_str_ln) //the idea here is
             else
             {
                 filepos_last = filepos;
-                if(strlen(thestring) + (c == EOF? 2 : 1) > maximum_string_length)
+                if(strlen(thestring) + (c == EOF? 2 : 1) > maximum_string_length && filepos != 0)
                 {
                     maximum_string_length = strlen(thestring) + (c == EOF? 2 : 1);
                 }
@@ -114,7 +114,7 @@ size_t MaxArgvStringLength(int argc, char *argv[], size_t maximum_string_length,
 {
     if(argv_start >= argc)
     {
-        printf("error: not enough arguments");
+        printf("error: not enough arguments\n");
         return maximum_string_length;
     }
     
@@ -156,7 +156,7 @@ size_t StringCounter(size_t numberOfStrings, size_t maximum_string_length, char 
         }
         lastc = c;
     }
-    if(lastc != '\n')
+    if(lastc != '\n' && lastc != EOF)
     {
         strings++;
     }
@@ -170,7 +170,7 @@ char **allocated_strings(size_t numberOfStrings, size_t maximum_string_length)
     
     if(!numberOfStrings)
     {
-        printf("error: no strings");
+        printf("error: no strings\n");
         return nullptr;
     }
     char **allocated_strings = malloc(numberOfStrings * sizeof(char*));
@@ -234,7 +234,7 @@ void AllocateStringsFromFile(char filename[], size_t *allocation_position, char 
     
     if(*allocation_position > numberOfStrings)
     {
-        printf("error: not enough memory allocated");
+        printf("error: not enough memory allocated\n");
         return;
     }
     
@@ -252,7 +252,7 @@ void AllocateStringsFromFile(char filename[], size_t *allocation_position, char 
         (*allocation_position)++;
         if(*allocation_position > numberOfStrings)
         {
-            printf("error: not enough memory allocated");
+            printf("error: not enough memory allocated\n");
             return;
         }
     }
@@ -265,17 +265,17 @@ void AllocateStringsFromArgv(size_t argv_start, char *argv[], int argc, char ***
 {
     if(!allocated_strings || !*allocated_strings)
     {
-        printf("error: allocated strings are not real");
+        printf("error: allocated strings are not real\n");
         return;
     }
     if(argv_start >= argc)
     {
-        printf("error: not enough arguments");
+        printf("error: not enough arguments\n");
         return;
     }
     if(*allocation_position > numberOfStrings)
     {
-        printf("error: not enough memory allocated");
+        printf("error: not enough memory allocated\n");
         return;
     }
     
@@ -286,7 +286,7 @@ void AllocateStringsFromArgv(size_t argv_start, char *argv[], int argc, char ***
         (*allocation_position)++;
         if(*allocation_position > numberOfStrings)
         {
-            printf("error: not enough memory allocated");
+            printf("error: not enough memory allocated\n");
             return;
         }
     }
