@@ -149,7 +149,6 @@ size_t StringCounter(size_t numberOfStrings, size_t maximum_string_length, char 
             strings++;
         }
     }
-    strings++;
             
     fclose(thefile);
     return strings;
