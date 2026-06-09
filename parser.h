@@ -25,7 +25,7 @@ size_t MaxFileStringLength(char filename[], size_t mx_str_ln) //the idea here is
     fpos_t filepos_last = 0;
     size_t maximum_string_length = 0;
     
-    fileptr = fopen("strings.txt", "r");
+    fileptr = fopen(filename, "r");
     if(!fileptr)
     {
         printf("error: the file is not real\n");
@@ -119,6 +119,8 @@ size_t MaxArgvStringLength(int argc, char *argv[], size_t maximum_string_length,
     return max_string;
 }
 
+
+
 char **allocated_strings(size_t numberOfStrings, size_t maximum_string_length)
 {
     char **allocated_strings = malloc(numberOfStrings * sizeof(char*));
@@ -161,6 +163,7 @@ void Deallocate_string(char ***allocated_strings, size_t numberOfStrings)
 }
 
 // todo:
+// string number counter
 // file strings to allocated strings
 // argv strings to allocated strings
 // everything involving floats
