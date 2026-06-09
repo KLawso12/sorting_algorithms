@@ -49,7 +49,7 @@ size_t MaxFileStringLength(char filename[], size_t mx_str_ln) //the idea here is
             printf("error: could not allocate memory\n");
             return 0;
         }
-        while ((c = fgetc(fileptr)) != EOF )
+        while (true)
         {  
             fsetpos(fileptr, &filepos_last);
             getstring:
@@ -89,10 +89,15 @@ size_t MaxFileStringLength(char filename[], size_t mx_str_ln) //the idea here is
             else
             {
                 filepos_last = filepos;
-                if(strlen(thestring) + 1 > maximum_string_length)
+                if(strlen(thestring) + (c == EOF? 2 : 1) > maximum_string_length)
                 {
-                    maximum_string_length = strlen(thestring) + 1;
+                    maximum_string_length = strlen(thestring) + (c == EOF? 2 : 1);
                 }
+            }
+            
+            if(c == EOF)
+            {
+                break;
             }
         }
         free(thestring);
@@ -139,6 +144,7 @@ size_t StringCounter(size_t numberOfStrings, size_t maximum_string_length, char 
         printf("error: the file is not real\n");
         return numberOfStrings;
     }
+    char lastc = 0;
     char c = 0;
     size_t strings = numberOfStrings;
     while(c != EOF)
@@ -148,6 +154,11 @@ size_t StringCounter(size_t numberOfStrings, size_t maximum_string_length, char 
         {
             strings++;
         }
+        lastc = c;
+    }
+    if(lastc != '\n')
+    {
+        strings++;
     }
             
     fclose(thefile);
@@ -222,10 +233,15 @@ void AllocateStringsFromFile(char filename[], size_t *allocation_position, char 
     }
     
     char c;
+    char *whereThing;
     while((c = fgetc(thefile)) != EOF)
     {
         fsetpos(thefile,&filepos);
         fgets((*allocated_strings)[*allocation_position], maximum_string_length,thefile);
+        if((whereThing = strchr((*allocated_strings)[*allocation_position], '\n')))
+        {
+            *whereThing = '\0';
+        }
         fgetpos(thefile,&filepos);
         (*allocation_position)++;
         if(*allocation_position > numberOfStrings)
@@ -234,7 +250,6 @@ void AllocateStringsFromFile(char filename[], size_t *allocation_position, char 
             return;
         }
     }
-    
     
     fclose(thefile);
     return;
