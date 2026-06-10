@@ -132,7 +132,7 @@ size_t MaxArgvStringLength(int argc, char *argv[], size_t maximum_string_length,
         maximum_string_length = strlen(argv[max_string])+1;
     }
     
-    return max_string;
+    return maximum_string_length;
 }
 
 size_t StringCounter(size_t numberOfStrings, size_t maximum_string_length, char filename[])
